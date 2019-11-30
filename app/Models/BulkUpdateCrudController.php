@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
 
-class Module extends Model
+class BulkUpdateCrudController extends Model
 {
     use CrudTrait;
 
@@ -15,11 +15,11 @@ class Module extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'modules';
+    protected $table = 'bulk_update_crud_controllers';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = ['user_id', 'name'];
+    protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
 
@@ -35,10 +35,6 @@ class Module extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function testCases()
-    {
-        return $this->hasMany(TestCase::class);
-    }
     /*
     |--------------------------------------------------------------------------
     | SCOPES

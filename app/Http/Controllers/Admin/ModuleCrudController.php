@@ -26,6 +26,7 @@ class ModuleCrudController extends CrudController
         $this->crud->setModel('App\Models\Module');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/module');
         $this->crud->setEntityNameStrings('module', 'modules');
+        $this->crud->allowAccess(['list', 'create', 'update', 'delete', 'revisions', 'reorder', 'show', 'details_row', 'bulk_edit']);
 
         /*
         |--------------------------------------------------------------------------
@@ -57,5 +58,22 @@ class ModuleCrudController extends CrudController
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
         return $redirect_location;
+    }
+    
+    public function getMyModules()
+    {
+        $search_term = request()->input('q');
+        $page = request()->input('page');
+
+        if ($search_term)
+        {
+            $results = \App\Models\Module::where('name', 'LIKE', '%'.$search_term.'%')->paginate(10);
+        }
+        else
+        {
+            $results = \App\Models\Module::paginate(10);
+        }
+
+        return $results;
     }
 }

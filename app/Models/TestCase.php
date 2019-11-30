@@ -19,7 +19,7 @@ class TestCase extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = ['jira_id', 'release_version', 'module_id','is_regression', 'objective', 'steps', 'data', 'expected_result', 'actual_result', 'status', 'remarks'];
+    protected $fillable = ['jira_id','user_id', 'release_version', 'module_id','is_regression', 'objective', 'steps', 'data', 'expected_result', 'actual_result', 'status', 'remarks'];
     // protected $hidden = [];
     // protected $dates = [];
     protected $details_row = true;
