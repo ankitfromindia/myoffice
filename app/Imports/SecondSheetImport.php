@@ -18,7 +18,7 @@ class SecondSheetImport implements ToCollection, WithHeadingRow
     {
         info('second sheet importing...');
         $records = $rows->toArray();
-       
+
         //dd($records);
         $headers = array_map(function($header){
             return ucwords(str_replace("_", " ", $header));
@@ -37,6 +37,7 @@ class SecondSheetImport implements ToCollection, WithHeadingRow
         if(count($flatValues))
         {
             CsvData::create([
+                'created_by' => backpack_auth()->id()
                 'csv_filename' => request()->file('csv_file')->getClientOriginalName(),
                 'csv_data' => mb_convert_encoding(json_encode($flatValues), 'UTF-8', 'auto')
             ]);
