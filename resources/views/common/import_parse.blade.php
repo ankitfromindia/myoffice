@@ -23,6 +23,7 @@
             <form class="form-horizontal" method="POST" action="{{ route('admin.'.strtolower(str_replace(' ', '', $crud->entity_name)).'.importProcess') }}">
                 {{ csrf_field() }}
                 <input type="hidden" name="csv_data_file_id" value="{{ $csv_data_file->id }}"/>
+                <input type="hidden" name="csv_data_file_id" value="{{ $csv_data_file->csv_filename }}"/>
 
                 <div style="overflow: auto; width: 100%;">
                     <table class="box table table-striped table-hover responsive nowrap m-t-0" style="width: 100%">

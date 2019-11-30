@@ -16,7 +16,9 @@ class SecondSheetImport implements ToCollection, WithHeadingRow
     */
     public function collection(Collection $rows)
     {
+        info('second sheet importing...');
         $records = $rows->toArray();
+       
         //dd($records);
         $headers = array_map(function($header){
             return ucwords(str_replace("_", " ", $header));
@@ -31,7 +33,7 @@ class SecondSheetImport implements ToCollection, WithHeadingRow
                 array_push($flatValues, array_values($record));
             }
         }
-        
+
         if(count($flatValues))
         {
             CsvData::create([

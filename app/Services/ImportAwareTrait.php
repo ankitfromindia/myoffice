@@ -241,7 +241,9 @@ trait ImportAwareTrait
      */
     public function importParse(Request $request)
     {
-        \Excel::import(new \App\Imports\TestCaseImport, request()->file('csv_file'));
+        $import = new \App\Imports\TestCaseImport();
+        $import->onlySheets(1, 2, 3);
+        \Excel::import($import, request()->file('csv_file'));
 //        dd($a);
 //        $path = $request->file('csv_file')->getRealPath();
 //        $data = array_map('str_getcsv', file($path));
@@ -256,6 +258,7 @@ trait ImportAwareTrait
             'csv_data' => $csvData,
             'csv_header' => $csvData[0],
             'csv_data_file' => $csvDataFile,
+
             'crud' => $this->crud,
         ]);
     }
@@ -279,7 +282,9 @@ trait ImportAwareTrait
 
         // load the data stored in the database.
         $requestFields = $request->fields;
-        $data = CsvData::find($request->csv_data_file_id);
+        $errors = [];
+
+        CsvData::where('csv_filename', $request->csv_data_file_id)->get()->each(function($data) use($requestFields, $importFields, $errors){
         $csv_data = json_decode($data->csv_data, true);
 
         $entities = [];
@@ -298,7 +303,6 @@ trait ImportAwareTrait
 
             $entities[] = $entity;
         }
-        //dd($entities);
 
         // resolve all the foreign keys.
         foreach ($entities as $idx_1 => &$entity) {
@@ -310,7 +314,7 @@ trait ImportAwareTrait
         }
 
         // run validations.
-        $errors = [];
+        
         foreach ($entities as $idx => &$entity) {
             $rules = $this->importValidationRules();
             $messages = $this->importValidationMessages();
@@ -332,7 +336,8 @@ trait ImportAwareTrait
             }
         }
         $this->afterImport($entityObjects);
-
+        });
+        CsvData::where('csv_filename', $request->csv_data_file_id)->delete();
         return view($this->importProcessView(), [
             'crud' => $this->crud,
             'errors' => $errors,

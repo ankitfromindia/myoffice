@@ -33,10 +33,10 @@ class TestCaseCrudController extends CrudController
         $this->crud->setModel('App\Models\TestCase');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/testcase');
         $this->crud->setEntityNameStrings('testcase', 'Manage Test Case');
-        $this->crud->setCreateView('testcase.create');
+        //$this->crud->setCreateView('testcase.create');
         $this->crud->enableBulkActions();
         $this->addFilters();
-        $this->crud->allowAccess(['list', 'create', 'update', 'delete', 'revisions', 'reorder', 'show', 'details_row', 'bulk_edit']);
+        $this->crud->allowAccess(['list', 'create', 'update', 'delete', 'revisions', 'reorder', 'show', 'details_row', 'clone']);
         
         $fiels = config('fields.testcase');
 
@@ -49,8 +49,14 @@ class TestCaseCrudController extends CrudController
         // add asterisk for fields that are required in TestCaseRequest
         $this->crud->setRequiredFields(StoreRequest::class, 'create');
         $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
-        $this->crud->addButtonFromView('line', 'bulk_delete', 'bulk_delete', 'beginning');
-        $this->crud->addButtonFromView('bottom', 'import', 'import', 'beginning');
+        $this->crud->addButtonFromView('bottom', 'bulk_clone', 'bulk_clone', 'end');
+        $this->crud->addButtonFromView('bottom', 'bulk_delete', 'bulk_delete', 'end');
+        $this->crud->addButtonFromView('bottom', 'bulk_update', 'bulk_update', 'end');
+        $this->crud->addButtonFromView('bottom', 'import', 'import', 'end');
+        $this->crud->addButtonFromView('top', 'bulk_clone', 'bulk_clone', 'end');
+        $this->crud->addButtonFromView('top', 'bulk_delete', 'bulk_delete', 'end');
+        $this->crud->addButtonFromView('top', 'bulk_update', 'bulk_update', 'end');
+        $this->crud->addButtonFromView('top', 'import', 'import', 'end');
     }
 
     public function store(StoreRequest $request)
@@ -110,35 +116,29 @@ class TestCaseCrudController extends CrudController
     
     public function importCreate($entity)
     {
-        static $moduleId;
-        
-        if(empty($moduleId))
+
+        if(is_string($entity['module_id']))
         {
-            //dd(Module::where('name', $entity['module_id'])->exists());
-            if(is_string($entity['module_id']))
+            if(Module::where('name', $entity['module_id'])->exists())
             {
-                if(Module::where('name', $entity['module_id'])->exists())
-                {
-                    $module = Module::where('name', $entity['module_id'])->first();
-                }
-                else
-                {
-                    $module = Module::create([
-                       'user_id' => backpack_auth()->id(),
-                       'name' => $entity['module_id'] 
-                    ]);
-                }
+                $module = Module::where('name', $entity['module_id'])->first();
+            }
+            else
+            {
+                $module = Module::create([
+                   'user_id' => backpack_auth()->id(),
+                   'name' => $entity['module_id'] 
+                ]);
+            }
+            $moduleId = $module->id;
+        }
+        elseif(is_int($entity['module_id']))
+        {
+            if(Module::where('id', $entity['module_id'])->exists())
+            {
                 $moduleId = $module->id;
             }
-            elseif(is_int($entity['module_id']))
-            {
-                if(Module::where('id', $entity['module_id'])->exists())
-                {
-                    $moduleId = $module->id;
-                }
-            }
         }
-        
         $entity['module_id'] = $moduleId;
         $entity['is_regression'] = $entity['is_regression'] ?? false;
         $entity['user_id']= backpack_auth()->id();
@@ -161,5 +161,32 @@ class TestCaseCrudController extends CrudController
 
         return view('testcase.bulk_edit', $this->data);
     }
+
+    
+    
+    public function bulkClone()
+    {
+        $this->crud->hasAccessOrFail('create');
+
+        $entries = $this->request->input('entries');
+        $clonedEntries = [];
+
+        foreach ($entries as $key => $id) {
+            if ($entry = $this->crud->model->find($id)) {
+                $clonedEntries[] = $entry->replicate()->push();
+            }
+        }
+
+        return $clonedEntries;
+    }
+
+    public function bulkDelete()
+    {
+        $this->crud->hasAccessOrFail('create');
+
+        $entries = $this->request->input('entries');
+        $this->crud->model->whereIn('id', $entries)->delete();
+    }
+
     
 }

@@ -28,6 +28,7 @@ return [
     // Edit form
     'edit'                 => 'Edit',
     'save'                 => 'Save',
+    'update'               => 'Update',
 
     // Revisions
     'revisions'            => 'Revisions',
@@ -71,6 +72,7 @@ return [
 
         // Bulk confirmation
         'bulk_delete_are_you_sure' => 'Are you sure you want to delete these :number entries?',
+        'bulk_update_are_you_sure' => 'Are you sure you want to update these :number entries?',
         'bulk_delete_sucess_title' => 'Entries deleted',
         'bulk_delete_sucess_message' => ' items have been deleted',
         'bulk_delete_error_title' => 'Delete failed',
