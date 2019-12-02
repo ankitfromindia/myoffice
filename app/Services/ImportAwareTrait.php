@@ -242,7 +242,7 @@ trait ImportAwareTrait
     public function importParse(Request $request)
     {
         $import = new \App\Imports\TestCaseImport();
-        $import->onlySheets(1, 2, 3);
+        $import->onlySheets(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
         \Excel::import($import, request()->file('csv_file'));
 //        dd($a);
 //        $path = $request->file('csv_file')->getRealPath();

@@ -17,9 +17,6 @@ Route::group([
         Route::post('/testcase/importParse', 'TestCaseCrudController@importParse')->name('admin.testcase.importParse');
         Route::post('/testcase/importProcess', 'TestCaseCrudController@importProcess')->name('admin.testcase.importProcess');
         Route::get('/testcase/importFormatDownload', 'TestCaseCrudController@importFormatDownload')->name('admin.testcase.importFormatDownload');
-        Route::post('/testcase/bulk-clone', 'TestCaseCrudController@bulkClone');
-            Route::post('/testcase/bulk-delete', 'TestCaseCrudController@bulkDelete');
-        //Route::get('/testcase/bulkEdit', 'TestCaseCrudController@bulkEdit')->name('admin.testcase.bulkEdit');
         Route::resource('/testcase/bulkUpdate', 'BulkUpdateCrudController')->only([
             'create', 'store'
         ]);

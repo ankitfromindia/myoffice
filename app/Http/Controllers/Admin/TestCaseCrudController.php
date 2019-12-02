@@ -144,7 +144,7 @@ class TestCaseCrudController extends CrudController
         $entity['status']=0;
         if(is_int($entity['module_id']))
         {
-            return \App\Models\TestCase::create($entity);
+            return \App\Models\TestCase::updateOrCreate($entity, $entity);
         }
     }
     
@@ -178,14 +178,5 @@ class TestCaseCrudController extends CrudController
 
         return $clonedEntries;
     }
-
-    public function bulkDelete()
-    {
-        $this->crud->hasAccessOrFail('create');
-
-        $entries = $this->request->input('entries');
-        $this->crud->model->whereIn('id', $entries)->delete();
-    }
-
     
 }

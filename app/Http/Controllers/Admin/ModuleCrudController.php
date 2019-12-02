@@ -27,6 +27,7 @@ class ModuleCrudController extends CrudController
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/module');
         $this->crud->setEntityNameStrings('module', 'modules');
         $this->crud->allowAccess(['list', 'create', 'update', 'delete', 'revisions', 'reorder', 'show', 'details_row', 'bulk_edit']);
+        $this->crud->enableBulkActions();
 
         /*
         |--------------------------------------------------------------------------
@@ -36,6 +37,9 @@ class ModuleCrudController extends CrudController
 
         // TODO: remove setFromDb() and manually define Fields and Columns
         $this->crud->setFromDb();
+        $this->crud->removeField('user_id');
+        $this->crud->removeColumn('user_id');
+        $this->crud->addButtonFromView('top', 'bulk_delete', 'bulk_delete', 'end');
 
         // add asterisk for fields that are required in ModuleRequest
         $this->crud->setRequiredFields(StoreRequest::class, 'create');
