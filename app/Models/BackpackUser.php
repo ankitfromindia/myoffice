@@ -11,7 +11,6 @@ class BackpackUser extends User
     use InheritsRelationsFromParentModel;
 
     protected $table = 'users';
-
     /**
      * Send the password reset notification.
      *
@@ -32,5 +31,11 @@ class BackpackUser extends User
     public function getEmailForPasswordReset()
     {
         return $this->email;
+    }
+
+
+    public function settings()
+    {
+        return $this->hasMany(\App\Models\Setting::class);
     }
 }
