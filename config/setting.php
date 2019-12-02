@@ -7,7 +7,7 @@ return [
         'testcase' => [
             'jira_id'         => 'required',
             'release_version' => 'required|max:10',
-            'is_regression'   => 'in:true,false,TRUE,FALSE',
+            'is_regression'   => 'nullable',
             'module_id'       => 'required',
             'objective'       => 'required|min:5|max:255',
             'steps'           => 'required|min:5',

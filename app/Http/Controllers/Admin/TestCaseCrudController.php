@@ -42,9 +42,11 @@ class TestCaseCrudController extends CrudController
 
         $this->crud->addFields($fiels);
 
+
         $this->crud->addColumns(config('columns.col_testcase'));
         $this->crud->setFromDb();
         $this->crud->removeColumn('user_id');
+        $this->crud->removeField('user_id');
 
         // add asterisk for fields that are required in TestCaseRequest
         $this->crud->setRequiredFields(StoreRequest::class, 'create');
@@ -65,16 +67,13 @@ class TestCaseCrudController extends CrudController
         // your additional operations before save here
         $request->merge([
             'jira_id' => $request->input('jira_id'),
-            'release_version' => config('setting.release_version_prefix') . $request->input('release_version')
+            'release_version' => config('setting.release_version_prefix') . $request->input('release_version'),
+            'user_id' => backpack_auth()->id()
         ]);
         $redirect_location = parent::storeCrud($request);
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location->withInput([
-                    'jira_id'         => $request->input('jira_id'),
-                    'module_id'       => $request->input('module_id'),
-                    'release_version' => $request->input('release_version')
-        ]);
+        return $redirect_location->withInput($request->all());
     }
 
     public function update(UpdateRequest $request)
