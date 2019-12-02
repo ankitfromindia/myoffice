@@ -62,7 +62,7 @@ class TestCaseCrudController extends CrudController
         $this->crud->addButtonFromView('top', 'import', 'import', 'end');
     }
 
-   
+
     public function store(StoreRequest $request)
     {
         //dd($request->all());
@@ -181,4 +181,12 @@ class TestCaseCrudController extends CrudController
         return $clonedEntries;
     }
     
+    public function show($id)
+    {
+        $content = parent::show($id);
+
+        $this->crud->removeColumn('user_id');
+
+        return $content;
+    }
 }
