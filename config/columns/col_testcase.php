@@ -8,7 +8,7 @@ return [
         'name'      => 'module_id', // the column that contains the ID of that connected entity;
         'entity'    => 'module', // the method that defines the relationship in your Model
         'attribute' => "name", // foreign key attribute that is shown to user
-        'model'     => "App\Models\Module", // foreign key model
+        'model'     => "App\Models\Module",
     ],
     [
         'name'     => 'objective',

@@ -22,7 +22,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">CSV Import</div>
+                <div class="panel-heading">XLS Import</div>
 
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST"
@@ -33,7 +33,7 @@
                         
                              
                         <div class="form-group{{ $errors->has('csv_file') ? ' has-error' : '' }}">
-                            <label for="csv_file" class="col-md-4 control-label">CSV file to import: </label>
+                            <label for="csv_file" class="col-md-4 control-label">XLS file to import: </label>
 
                             <div class="col-md-6">
                                 <input id="csv_file" type="file" class="form-control" name="csv_file" required>
@@ -50,9 +50,9 @@
                             <label for="csv_file" class="col-md-4 control-label">Instructions:</label>
 
                             <div class="col-md-6">
-                                1. Upload a CSV in the following format:
-                                <a href="{{ route('admin.'.strtolower($crud->entity_name).'.importFormatDownload') }}">Download</a><br>
-                                <a href="{{ route('admin.'.strtolower(str_replace(' ', '', $crud->entity_name)).'.importFormatDownload') }}">Download</a><br>
+                                1. Upload Excel in the following format:
+                                <a href="{{ route('admin.'.strtolower($crud->entity_name).'.importFormatDownload') }}">Download</a>
+                                <br>
                                 @foreach($instructions as $idx => $instruction)
                                 {{ $idx+2 }}. {{$instruction}}<br>
                                 @endforeach

@@ -37,6 +37,7 @@ class TestCaseCrudController extends CrudController
         $this->crud->enableBulkActions();
         $this->addFilters();
         $this->crud->allowAccess(['list', 'create', 'update', 'delete', 'revisions', 'reorder', 'show', 'details_row', 'clone']);
+         $this->crud->allowAccess('show');
         
         $fiels = config('fields.testcase');
 
@@ -61,6 +62,7 @@ class TestCaseCrudController extends CrudController
         $this->crud->addButtonFromView('top', 'import', 'import', 'end');
     }
 
+   
     public function store(StoreRequest $request)
     {
         //dd($request->all());
