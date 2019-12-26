@@ -20,7 +20,7 @@ return [
             'steps'           => 'required',
             'data'            => 'required',
             'expected_result' => 'required'
-        ];
+        ],
         'bulkUpdate' => [
             'release_version' => 'nullable|max:10',
             'is_regression'   => 'nullable',
