@@ -9,11 +9,18 @@ return [
             'release_version' => 'required|max:10',
             'is_regression'   => 'nullable',
             'module_id'       => 'required',
-            'objective'       => 'required|min:5|max:255',
-            'steps'           => 'required|min:5',
-            'data'            => 'required|min:5',
-            'expected_result' => 'required|min:5'
+            'objective'       => 'required|min:5',
+            'steps'           => 'required',
+            'data'            => 'required',
+            'expected_result' => 'required'
         ],
+        'testcase_importable' => [
+            'module_id'       => 'required',
+            'objective'       => 'required|min:5',
+            'steps'           => 'required',
+            'data'            => 'required',
+            'expected_result' => 'required'
+        ];
         'bulkUpdate' => [
             'release_version' => 'nullable|max:10',
             'is_regression'   => 'nullable',

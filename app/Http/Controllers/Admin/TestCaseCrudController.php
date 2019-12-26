@@ -99,13 +99,7 @@ class TestCaseCrudController extends CrudController
     
     public function importValidationRules(): array
     {
-        return [
-            'module_id'       => 'required',
-            'objective'       => 'required|min:5|max:255',
-            'steps'           => 'required|min:5',
-            'data'            => 'required|min:5',
-            'expected_result' => 'required|min:5'
-        ];
+        return config('setting.validation.testcase_importable');
     }
     
     public function importValidationMessages(): array
